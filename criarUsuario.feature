@@ -68,4 +68,31 @@ Feature: Criar Usuário
             Given request user
             When method post
             Then status 400
+
+        #os dois testes abaixo criam usuários com nome de 99, 100 e 101 caracteres
+        Scenario Outline: Criar usuário com nome <name>
+            * def user = {name: "#(name)", email: "kira@email.com"}
+            Given request user
+            When method post
+            Then status 201
+            And match response contains user
+            # checa se os outros atributos são do tipo especificado
+            And match response.id == "#string"
+            And match response.createdAt == "#string"
+            And match response.updatedAt == "#string"
+
+            # apaga o usuário criado
+            * def createdUser = user
+            * set createdUser.id = response.id
+            * call read("utils/deletarUsuario.feature") createdUser
+        
+            Examples:
+                | name                                                                                                | 
+                | YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikag |
+                | YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikage|
+        
+        Scenario: Criar usuário com nome de 101 caracteres
+            * def user = {name: "YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageK", email: "kira@email.com"}
+            Given request user
+            When method post
             Then status 400
