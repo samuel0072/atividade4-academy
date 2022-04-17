@@ -20,3 +20,17 @@ Feature: Pesquisar usuário
 
             #apaga o usuário temporário
             * call read("utils/deletarUsuario.feature") temp
+
+        Scenario: Pesquisar usuário existente por email
+            # cria um usuário temporário
+            * def temp = call read("utils/criarUsuario.feature")
+            * def responseFormat = { id: "#string", name: "#string",  email: "#string", createdAt: "#string",  updatedAt: "#string"}
+            Given param value = temp.createdUser.email
+            When method get
+            Then status 200
+            And match response == "#array"
+            And match each response == responseFormat
+            And match response contains temp.createdUser
+
+            #apaga o usuário temporário
+            * call read("utils/deletarUsuario.feature") temp
