@@ -118,3 +118,18 @@ Feature: Atualizar um usuário
 
             # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        Scenario: Criar usuário com mesmo email
+            * def user1 = call read("utils/criarUsuario.feature")
+            * def user2 = call read("utils/criarUsuario.feature")
+            * def att = {name: "#(user1.createdUser.name)", email: "#(user2.createdUser.email)"}
+            * def responseMessage = {error: "E-mail already in use."}
+        
+            Given request att
+            And path user1.createdUser.id
+            When method put
+            Then status 422
+            And match response == responseMessage
+
+            # apaga os usuários criados
+            * call read("utils/deletarUsuario.feature") user1
+            * call read("utils/deletarUsuario.feature") user2
