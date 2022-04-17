@@ -17,3 +17,11 @@ Feature: Encontrar um usuário
 
             #apaga o usuário temporário
             * call read("utils/deletarUsuario.feature") temp
+        
+        Scenario: Encontrar usuário inexistente
+            # cria um usuário temporário
+            * def temp = call read("utils/criarUsuario.feature")
+            * call read("utils/deletarUsuario.feature") temp
+            And path temp.createdUser.id 
+            When method get
+            Then status 404
