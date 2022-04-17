@@ -22,3 +22,11 @@ Feature: Criar Usuário
             * def createdUser = user
             * set createdUser.id = response.id
             * call read("utils/deletarUsuario.feature") createdUser
+
+        Scenario: Criar usuário sem email
+            * def user = {name: "Idda Masayuki"}
+            Given request user
+            When method post
+            Then status 400
+        
+        
