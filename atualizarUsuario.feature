@@ -85,3 +85,36 @@ Feature: Atualizar um usuário
 
              #apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        #os dois testes abaixo criam usuários com nome de 99, 100 e 101 caracteres
+        Scenario Outline: Criar usuário com nome <name>
+            * def temp = call read("utils/criarUsuario.feature")
+            * def user = {name: "#(name)", email: "#(temp.createdUser.email)"}
+
+            Given request user
+            And path temp.createdUser.id
+            When method put
+            Then status 200
+            And match response.id == temp.createdUser.id
+            And match response.name == user.name
+            And match response.email == user.email
+            And match response.createdAt == temp.createdUser.createdAt
+            And match response.updatedAt == "#string"
+
+            # apaga o usuário criado
+            * call read("utils/deletarUsuario.feature") temp
+        
+            Examples:
+                | name                                                                                                | 
+                | YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikag |
+                | YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikage|
+        Scenario: Criar usuário com nome de 101 caracteres
+            * def temp = call read("utils/criarUsuario.feature")
+            * def user = {name: "YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageK", email: "#(temp.createdUser.email)"}
+            
+            Given request user
+            And path temp.createdUser.id
+            When method put
+            Then status 400
+
+            # apaga o usuário criado
+            * call read("utils/deletarUsuario.feature") temp
