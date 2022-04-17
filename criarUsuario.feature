@@ -96,3 +96,22 @@ Feature: Criar Usuário
             Given request user
             When method post
             Then status 400
+        
+        Scenario: Criar usuário com mesmo email
+            * def user1 = {name: "Iida Masayuki", email: "iida@email.com"}
+            * def user2 = {name: "Iida Masayuki", email: "iida@email.com"}
+            Given request user1
+            When method post
+
+            * set user1.id = response.id
+            * def responseMessage = { error: "User already exists." }
+            
+            Given path "users"
+            Given request user2
+            When method post
+            Then status 422
+            And match response == responseMessage
+
+            # apaga o usuário criado
+            * def createdUser = user1
+            * call read("utils/deletarUsuario.feature") createdUser
