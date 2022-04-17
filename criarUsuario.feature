@@ -34,9 +34,38 @@ Feature: Criar Usuário
             Given request user
             When method post
             Then status 400
-        
-                Scenario: Criar usuário com email inválido
+
+        Scenario: Criar usuário com email inválido
             * def user = {email: "iida@email"}
             Given request user
             When method post
+            Then status 400
+
+        #Os dois testes abaixo criam usuários com email 59, 60 e 61 caracteres
+        Scenario Outline: Criar usuário com email <email>
+            * def user = {name: "Hanabi", email: "#(email)"}
+            Given request user
+            When method post
+            Then status <responseCode>
+            And match response contains user
+            # checa se os outros atributos são do tipo especificado
+            And match response.id == "#string"
+            And match response.createdAt == "#string"
+            And match response.updatedAt == "#string"
+
+            # apaga o usuário criado
+            * def createdUser = user
+            * set createdUser.id = response.id
+            * call read("utils/deletarUsuario.feature") createdUser
+        
+            Examples:
+                | email                                                       | responseCode | 
+                | hanabihanabihanabihanabihabihabihanabihanabihanab@email.com | 201          | 
+                | hanabihanabihanabihanabihabihabihanabihanabihanabi@email.com| 201          |
+        
+        Scenario: Criar usuário com email de 61 caracteres
+            * def user = {name: "Hanabi", email: "hanabihanabihanabihanabihabihabihanabihanabihanabih@email.com"}
+            Given request user
+            When method post
+            Then status 400
             Then status 400
