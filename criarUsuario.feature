@@ -35,4 +35,8 @@ Feature: Criar Usuário
             When method post
             Then status 400
         
-        
+                Scenario: Criar usuário com email inválido
+            * def user = {email: "iida@email"}
+            Given request user
+            When method post
+            Then status 400
