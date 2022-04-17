@@ -28,5 +28,11 @@ Feature: Criar Usuário
             Given request user
             When method post
             Then status 400
+
+        Scenario: Criar usuário sem nome
+            * def user = {email: "iida@email.com"}
+            Given request user
+            When method post
+            Then status 400
         
         
