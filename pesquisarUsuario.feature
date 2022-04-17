@@ -14,7 +14,7 @@ Feature: Pesquisar usuário
             Given param value = temp.createdUser.name
             When method get
             Then status 200
-            And response == "#array"
+            And match response == "#array"
             And match each response == responseFormat
             And match response contains temp.createdUser
 
