@@ -13,3 +13,15 @@ Feature: Remover um usuário
             And path temp.createdUser.id 
             When method delete
             Then status 204
+
+        Scenario: Remover usuário inexistente
+            # cria um usuário temporário
+            * def temp = call read("utils/criarUsuario.feature")
+            And path temp.createdUser.id 
+            When method delete
+            
+            #utiliza  id do usuário apagado
+            Given path "users"
+            And path temp.createdUser.id 
+            When method delete
+            Then status 204
