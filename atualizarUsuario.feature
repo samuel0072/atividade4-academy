@@ -6,6 +6,7 @@ Feature: Atualizar um usuário
     Background: Configuar Url 
         Given url baseUrl
         And path "users"
+        
         Scenario: Atualizar usuário com sucesso
             * def temp = call read("utils/criarUsuario.feature")
             * set temp.createdUser.email = "ashe@tokyo.jp"
@@ -22,6 +23,7 @@ Feature: Atualizar um usuário
 
             # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        
         Scenario: Atualizar usuário sem email
             * def temp = call read("utils/criarUsuario.feature")
             * def user = {name: "#(temp.createdUser.name)"}
@@ -32,6 +34,7 @@ Feature: Atualizar um usuário
 
             # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        
         Scenario: Atualizar usuário sem nome
             * def temp = call read("utils/criarUsuario.feature")
             * def user = {email: "#(temp.createdUser.email)"}
@@ -42,6 +45,7 @@ Feature: Atualizar um usuário
 
             # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        
         Scenario: Criar usuário com email inválido
             * def temp = call read("utils/criarUsuario.feature")
             * def user = {name: "#(temp.createdUser.name)", email: "asddd"}
@@ -52,6 +56,7 @@ Feature: Atualizar um usuário
 
              # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        
         #Os dois testes abaixo atualizam usuários com email 59, 60 e 61 caracteres
         Scenario Outline: Atualizar usuário com email <email>
             * def temp = call read("utils/criarUsuario.feature")
@@ -74,6 +79,7 @@ Feature: Atualizar um usuário
                 | email                                                       |
                 | hanabihanabihanabihanabihabihabihanabihanabihanab@email.com |
                 | hanabihanabihanabihanabihabihabihanabihanabihanabi@email.com|
+        
         Scenario: Criar usuário com email de 61 caracteres
             * def temp = call read("utils/criarUsuario.feature")
             * def user = {name: "#(temp.createdUser.name)", email: "hanabihanabihanabihanabihabihabihanabihanabihanabih@email.com"}
@@ -85,6 +91,7 @@ Feature: Atualizar um usuário
 
              #apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        
         #os dois testes abaixo criam usuários com nome de 99, 100 e 101 caracteres
         Scenario Outline: Criar usuário com nome <name>
             * def temp = call read("utils/criarUsuario.feature")
@@ -107,6 +114,7 @@ Feature: Atualizar um usuário
                 | name                                                                                                | 
                 | YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikag |
                 | YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikage|
+        
         Scenario: Criar usuário com nome de 101 caracteres
             * def temp = call read("utils/criarUsuario.feature")
             * def user = {name: "YoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageKiraYoshikageK", email: "#(temp.createdUser.email)"}
@@ -118,6 +126,7 @@ Feature: Atualizar um usuário
 
             # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        
         Scenario: Criar usuário com mesmo email
             * def user1 = call read("utils/criarUsuario.feature")
             * def user2 = call read("utils/criarUsuario.feature")
