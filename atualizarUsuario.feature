@@ -42,3 +42,13 @@ Feature: Atualizar um usuário
 
             # apaga o usuário criado
             * call read("utils/deletarUsuario.feature") temp
+        Scenario: Criar usuário com email inválido
+            * def temp = call read("utils/criarUsuario.feature")
+            * def user = {name: "#(temp.createdUser.name)", email: "asddd"}
+            Given request user
+            And path temp.createdUser.id
+            When method put
+            Then status 400
+
+             # apaga o usuário criado
+            * call read("utils/deletarUsuario.feature") temp
