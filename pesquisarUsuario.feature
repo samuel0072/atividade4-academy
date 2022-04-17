@@ -34,3 +34,12 @@ Feature: Pesquisar usuário
 
             #apaga o usuário temporário
             * call read("utils/deletarUsuario.feature") temp
+
+        Scenario: Pesquisar usuário inexistente
+             * def temp = call read("utils/criarUsuario.feature")
+             * call read("utils/deletarUsuario.feature") temp
+            
+            Given param value = temp.createdUser.email
+            When method get
+            Then status 200
+            And match response == "#[0]"
