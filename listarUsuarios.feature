@@ -10,7 +10,8 @@ Feature: Listar Usuários
         Scenario: Checa o formato da resposta
             * def responseFormat = { id: "#string", name: "#string",  email: "#string", createdAt: "#string",  updatedAt: "#string"}
             When method get
-            Then match response == "#array"
+            Then status 200
+            And match response == "#array"
             And match each response == responseFormat
 
         Scenario: Verifica a existência de um usuário recém-criado
@@ -19,7 +20,8 @@ Feature: Listar Usuários
             
             #verifica se as insformações do usuário criado estão no array de resposta
             When method get
-            Then match response contains createdUser.createdUser
+            Then status 200
+            And match response contains createdUser.createdUser
 
             #apaga o usuário temporário
             * call read("utils/deletarUsuario.feature") createdUser
