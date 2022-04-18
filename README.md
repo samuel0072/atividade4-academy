@@ -7,8 +7,8 @@ Não devem ser executados como teste!
 
 Comando rápido para executar:
 
-```
+```Shell
 
-java -jar karate.jar atualizarUsuario.feature criarUsuario.feature encontrarUsuario.feature listarUsuarios.feature pesquisarUsuario.feature removerUsuario.feature
+$ java -jar karate.jar atualizarUsuario.feature criarUsuario.feature encontrarUsuario.feature listarUsuarios.feature pesquisarUsuario.feature removerUsuario.feature
 
 ```
