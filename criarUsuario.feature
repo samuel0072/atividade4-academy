@@ -71,7 +71,7 @@ Feature: Criar Usuário
 
         #os dois testes abaixo criam usuários com nome de 99, 100 e 101 caracteres
         Scenario Outline: Criar usuário com nome <name>
-            * def user = {name: "#(name)", email: "kira@email.com"}
+            * def user = {name: "#(name)", email: "#(java.util.UUID.randomUUID() + '@email.com')"}
             Given request user
             When method post
             Then status 201
